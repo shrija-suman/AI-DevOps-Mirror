@@ -1,24 +1,31 @@
 import os
+from openai import OpenAI
 
-def analyze_repository(root="."):
-    total_files = 0
-    total_lines = 0
+def explain_code(file_path):
+    client = OpenAI()
 
-    for foldername, subfolders, filenames in os.walk(root):
-        for file in filenames:
-            if file.endswith((".py", ".md", ".yml")):
-                total_files += 1
-                file_path = os.path.join(foldername, file)
-                try:
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        total_lines += len(f.readlines())
-                except:
-                    pass
+    with open(file_path, "r", encoding="utf-8") as f:
+        code = f.read()
 
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input=f"Explain what this code does in simple terms:\n\n{code}"
+    )
+
+    print("\nAI Explanation:")
+    print(response.output_text)
+
+def main():
     print("Repository Analysis Report")
     print("---------------------------")
-    print(f"Total relevant files: {total_files}")
-    print(f"Total lines of code: {total_lines}")
+
+    # choose a file to explain
+    file_to_explain = "scripts/analyze_repo.py"
+
+    if os.path.exists(file_to_explain):
+        explain_code(file_to_explain)
+    else:
+        print("File not found for explanation")
 
 if __name__ == "__main__":
-    analyze_repository()
+    main()
