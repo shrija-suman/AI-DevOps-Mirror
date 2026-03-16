@@ -13,11 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+      - name: Build Docker image
+        run: docker build -t ai-devops-mirror ./docker
 
-      - name: Run repository analysis
-        run: |
-          python scripts/analyze_repo.py
+      - name: Run repository analysis container
+        run: docker run ai-devops-mirror
