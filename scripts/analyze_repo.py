@@ -44,35 +44,24 @@ Code:
 
     return response.output_text
 
+from datetime import datetime
+
 def generate_readme(results):
     content = "# 🪞 AI DevOps Mirror Report\n\n"
 
+    content += f"🕒 **Generated on:** {datetime.now()}\n\n"
+    content += "---\n\n"
+
     for file, analysis in results.items():
-        content += f"## 📄 {file}\n\n"
-        content += analysis + "\n\n---\n\n"
+        content += f"## 📄 File: `{file}`\n\n"
+        content += "### 🤖 AI Analysis\n\n"
+        content += analysis + "\n\n"
+        content += "---\n\n"
+
+    content += "## ⚙️ System Info\n\n"
+    content += "- CI/CD: GitHub Actions\n"
+    content += "- Container: Docker\n"
+    content += "- Analysis: AI-assisted\n"
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(content)
-
-def main():
-    changed_files = get_changed_files()
-
-    if not changed_files or changed_files == ['']:
-        print("No changed files detected.")
-        return
-
-    results = {}
-
-    for file in changed_files:
-        code = read_file(file)
-        if code:
-            print(f"Analyzing {file}...")
-            analysis = analyze_with_ai(code)
-            results[file] = analysis
-
-    if results:
-        generate_readme(results)
-        print("README generated successfully!")
-
-if __name__ == "__main__":
-    main()
