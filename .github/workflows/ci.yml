@@ -21,8 +21,8 @@ jobs:
       - name: Build Docker image
         run: docker build -t ai-devops-mirror -f docker/Dockerfile .
 
-      - name: Create container
-        run: docker create --name temp_container ai-devops-mirror
+      - name: Run container (THIS IS THE FIX)
+        run: docker run --name temp_container ai-devops-mirror
 
       - name: Copy README from container
         run: docker cp temp_container:/app/README.md ./README.md
@@ -30,11 +30,13 @@ jobs:
       - name: Remove container
         run: docker rm temp_container
 
+      - name: Force update timestamp (VERY IMPORTANT)
+        run: echo "Last updated: $(date)" >> README.md
+
       - name: Commit updated README
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git pull
           git add README.md
-          git commit -m "AI: Auto-update README with code analysis" || echo "No changes"
+          git commit -m "Auto-update README with analysis" || echo "No changes"
           git push
