@@ -10,33 +10,29 @@ permissions:
 
 jobs:
   analyze:
-    runs-on: ubuntu-latest
-
-    steps:
+     runs-on: ubuntu-latest
+     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
-      - name: Build Docker image
+        -name: Build Docker image
         run: docker build -t ai-devops-mirror -f docker/Dockerfile .
 
       - name: Run container
         run: docker run --name temp_container ai-devops-mirror || true
 
       - name: Copy README from container
-        run: docker cp temp_container:/app/README.md ./README.md || echo "README not found"
+        run: docker cp temp_container:/app/README.md README.md || echo "No README"
 
       - name: Remove container
         run: docker rm temp_container || true
 
-      - name: Force update timestamp
-        run: echo "Last updated: $(date)" >> README.md
+      - name: Force update
+        run: echo "Updated at $(date)" >> README.md
 
-      - name: Commit updated README
+      - name: Commit changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add README.md
-          git commit -m "Auto-update README with analysis" || echo "No changes"
+          git commit -m "Auto update README" || echo "No changes"
           git push
