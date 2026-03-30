@@ -1,11 +1,17 @@
 from datetime import datetime
+import os
 
 def main():
     print("Generating README...")
 
+    files = os.listdir()
+
     content = f"""# AI DevOps Mirror Report
 
 Generated on: {datetime.now()}
+
+## Files in Repository
+{chr(10).join(['- ' + f for f in files])}
 
 ## Summary
 This repository was automatically analyzed by AI DevOps Mirror.
@@ -24,11 +30,10 @@ This repository was automatically analyzed by AI DevOps Mirror.
 - Analysis: Automated
 """
 
-    # ✅ Proper indentation (VERY IMPORTANT)
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(content)
 
     print("README generated successfully!")
 
 if __name__ == "__main__":
-    main() 
+    main()
