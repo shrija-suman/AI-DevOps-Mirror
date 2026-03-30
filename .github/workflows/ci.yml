@@ -39,5 +39,5 @@ jobs:
     cat README.md
 
     git add README.md
-    git commit -m "Auto-update README (date)" || echo "No changes"
+    git commit -m "Auto-update README" || echo "No changes"
     git push
