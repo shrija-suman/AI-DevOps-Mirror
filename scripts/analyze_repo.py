@@ -1,14 +1,19 @@
 from datetime import datetime
 import os
+from datetime import datetime
 
 def main():
     print("Generating README...")
 
     files = os.listdir()
+    file_count = len(files)
 
     content = f"""# AI DevOps Mirror Report
 
 Generated on: {datetime.now()}
+
+## Repository Overview
+Total Files: {file_count}
 
 ## Files in Repository
 {chr(10).join(['- ' + f for f in files])}
@@ -16,18 +21,8 @@ Generated on: {datetime.now()}
 ## Summary
 This repository was automatically analyzed by AI DevOps Mirror.
 
-## Issues Detected
-- Example: Improve variable naming
-- Example: Add error handling
-
-## Suggested Improvements
-- Use functions for modularity
-- Improve code readability
-
-## System Info
-- CI/CD: GitHub Actions
-- Container: Docker
-- Analysis: Automated
+## Insight
+Changes in files will automatically reflect in this report.
 """
 
     with open("README.md", "w", encoding="utf-8") as f:
