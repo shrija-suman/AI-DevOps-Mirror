@@ -112,3 +112,9 @@ Total Files: {file_count}
 
 if __name__ == "__main__":
     main()
+    
+    import subprocess
+
+subprocess.run(["git", "add", "README.md"])
+subprocess.run(["git", "commit", "--allow-empty", "-m", "Auto-update README"])
+subprocess.run(["git", "push", "origin", "main"])
