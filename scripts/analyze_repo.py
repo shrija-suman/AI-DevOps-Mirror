@@ -70,3 +70,4 @@ def main():
 
 ```diff
 {diff_output}
+```
