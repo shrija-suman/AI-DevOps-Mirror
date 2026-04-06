@@ -1,6 +1,10 @@
 from datetime import datetime
 import os
 from datetime import datetime
+import pytz
+ist = pytz.timezone('Asia/Kolkata')
+current_time = datetime.now(ist)
+
 
 def get_all_files():
     files = []
@@ -44,7 +48,7 @@ def main():
 
     content = f"""# AI DevOps Mirror Report
 
-Generated on: {datetime.now()}
+Generated on: {current_time}
 
 ## Repository Overview
 Total Files: {file_count}
