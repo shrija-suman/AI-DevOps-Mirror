@@ -1,11 +1,13 @@
 from datetime import datetime, timezone, timedelta
 import os
+import subprocess
 
 # IST Time
 ist = timezone(timedelta(hours=5, minutes=30))
 current_time = datetime.now(ist)
 
 def get_all_files():
+    """Return all files in repo except .git"""
     files = []
     for root, dirs, filenames in os.walk("."):
         if ".git" in root:
@@ -14,24 +16,19 @@ def get_all_files():
             files.append(os.path.join(root, f))
     return files
 
-import subprocess
-
 def get_git_diff():
+    """Return the latest commit diff"""
     try:
         result = subprocess.run(
-            ["git", "diff", "HEAD^", "HEAD"],
+            ["git", "diff", "HEAD~1", "HEAD"],
             capture_output=True,
             text=True
         )
-        diff = result.stdout
-
-        if not diff.strip():
-            return "No changes detected."
-
-        return diff
-
+        diff = result.stdout.strip()
+        return diff if diff else "No changes detected."
     except:
         return "Could not fetch git diff."
+
 def main():
     print("Generating README...")
 
@@ -57,36 +54,19 @@ def main():
         elif file.endswith(".txt"):
             issues.append(f"{file}: Non-code file detected")
             suggestions.append(f"{file}: Consider organizing or documenting properly")
-
         else:
             suggestions.append(f"{file}: Ensure proper usage")
 
-    content = f"""# AI DevOps Mirror Report
+    # 🔥 Include Git diff for green/red highlights
+    diff_output = get_git_diff()
 
-Generated on: {current_time}
+    content = f"""# 🪞 AI DevOps Mirror Report
 
-## Repository Overview
-Total Files: {file_count}
+🕒 Generated on: {current_time}
 
-## Files in Repository
-{chr(10).join(['- ' + f for f in files])}
+---
 
-## Detected Issues
-{chr(10).join(['- ' + i for i in issues]) if issues else "No major issues detected."}
+## 🔍 Code Changes (Latest Commit)
 
-## Suggested Improvements
-{chr(10).join(['- ' + s for s in suggestions]) if suggestions else "Code looks good."}
-
-## Summary
-The system analyzed repository files and generated insights automatically.
-"""
-
-    with open("README.md", "w", encoding="utf-8") as f:
-        f.write(content)
-
-    print("README generated successfully!")
-
-if __name__ == "__main__":
-    main()
-    
-    print("demo change")
+```diff
+{diff_output}
