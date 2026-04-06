@@ -1,27 +1,25 @@
 # AI DevOps Mirror Report
 
-Generated on: 2026-04-06 01:08:38.635337
+Generated on: 2026-04-06 01:25:17.737595
 
 ## Repository Overview
 Total Files: 8
 
 ## Files in Repository
-- .git
-- .github
-- scripts
-- requirements.txt
-- test.txt
-- docker
-- README.md
-- docs
+- ./requirements.txt
+- ./test.txt
+- ./README.md
+- ./scripts/analyze_repo.py
+- ./scripts/README.md
+- ./docker/Dockerfile
+- ./docker/README.md
+- ./docs/README.md
 
 ## Detected Issues
-- requirements.txt: Non-code file detected
-- test.txt: Non-code file detected
+- ./scripts/analyze_repo.py: Check for proper function structure
 
 ## Suggested Improvements
-- requirements.txt: Consider organizing files
-- test.txt: Consider organizing files
+- ./scripts/analyze_repo.py: Improve code readability
 
 ## Summary
 The system analyzed repository files and generated insights automatically.
