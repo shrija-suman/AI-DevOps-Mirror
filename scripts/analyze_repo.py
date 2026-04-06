@@ -1,8 +1,9 @@
 from datetime import datetime
 import os
 from datetime import datetime
-import pytz
-ist = pytz.timezone('Asia/Kolkata')
+from datetime import timezone, timedelta
+
+ist = timezone(timedelta(hours=5, minutes=30))
 current_time = datetime.now(ist)
 
 
